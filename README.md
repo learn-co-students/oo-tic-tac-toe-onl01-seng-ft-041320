@@ -17,7 +17,7 @@ You're going to be building a 2 player CLI version of Tic Tac Toe by building a 
 
 ### Project Structure
 
-```bash 
+```bash
 ├── Gemfile
 ├── Gemfile.lock
 ├── README.md
@@ -196,5 +196,3 @@ Your `bin/tictactoe` CLI should:
 2. Start the game by calling `#play` on that instance.
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/oo-tic-tac-toe' title='Tic Tac Toe in Ruby'>OO Tic Tac Toe</a> on Learn.co and start learning to code for free.</p>
-
-
