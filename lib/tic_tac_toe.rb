@@ -30,49 +30,26 @@ class TicTacToe
   end
 
   def valid_move?(index)
-    @board[index] == " " ? true : false
+    # @board[index] == " " ? true : false
+    !position_taken?(index) && index.between?(0,8)
   end
 
   def turn
-    # allow($stdout).to receive(:puts)
-    # expect(game).to receive(:gets).and_return("5")
-    # expect(game).to receive(:input_to_index).and_return(4)
-    # expect(game).to receive(:valid_move?).and_return(true)
-    # expect(game).to receive(:current_player).and_return("X")
-    #
-    # game.turn
-  # Ask the user for their move by specifying a position between 1-9.
     puts "It is your turn.  Please choose a number between 1 to 9:  "
     input = gets.strip
-  # Receive the user's input.
-  # Translate that input into an index value.
     index = input_to_index(input)
     cp = current_player
-  # If the move is valid, make the move and display the board.
-  if (valid_move?(index))
-    move(index, cp)
-    display_board
-  else
-    puts "That was invalid, try again"
-    display_board
-    # input = gets.strip
-    turn
+    if (valid_move?(index))
+      move(index, cp)
+      display_board
+    else
+      puts "That was invalid, try again"
+      display_board
+      # input = gets.strip
+      turn
+    end
   end
 
-    # binding.pry
-
-    # while (valid_move?(index) == false)
-    #   puts "Move is invalid!! Please try again: "
-    #   input = gets
-    #   index = input_to_index(input)
-    #   index
-    # end
-    # move(index, current_player)
-    # display_board
-    # binding.pry
-
-  # If the move is invalid, ask for a new move until a valid move is received.
-  end
   def turn_count
     count = 0
     count = @board.count{|player_turn| player_turn==" "}
@@ -85,6 +62,86 @@ class TicTacToe
     turn_count.even? ? current = "X" : current = "O"
   end
 
+  def won?
+    #Steps:
+    #1. Flatten the WIN_COMBINATIONS array of arrays into
+    WIN_COMBINATIONS.detect do|winner|
+      if @board[winner[0]] == "X" && @board[winner[1]] == "X" && @board[winner[2]] == "X"
+        true
+      elsif @board[winner[0]] == "O" && @board[winner[1]] == "O" && @board[winner[2]] == "O"
+        true
+      else
+        nil
+      end
+    end
+  end
+
+  def full?
+    @board.all?{|position| position == "X" || position == "O"}
+  end
+
+  def draw?
+    full? && !(won?) ? true : false
+  end
+
+  def over?
+    full? || won? || draw?
+  end
+
+  def winner
+    if won?
+      WIN_COMBINATIONS.detect do|winner|
+          if @board[winner[0]] == "X" && @board[winner[1]] == "X" && @board[winner[2]] == "X"
+            true
+            return "X"
+          elsif @board[winner[0]] == "O" && @board[winner[1]] == "O" && @board[winner[2]] == "O"
+            true
+            return "O"
+          else
+            nil
+          end
+        end
+    else
+      nil
+    end
+  end
+
+  def play
+    # while !(over?)
+    #   turn
+    #   if won?
+    #   elsif draw?
+    #     puts "Cat's Game!"
+    #   else
+
+      # end
+    # end
+    until over?
+      turn
+      if draw?
+        puts "Cat's Game!"
+      end
+    end
+
+    if won?
+      winning_letter = ""
+      winning_letter = winner
+      puts "Congratulations #{winning_letter}!"
+    elsif draw?
+      puts "Cat's Game!"
+    else
+    end
+    # binding.pry
+# until the game is over
+#   take turns
+# end
+#
+# if the game was won
+#   congratulate the winner
+# else if the game was a draw
+#   tell the players it ended in a draw
+# end
+  end
 end
 # game = TicTacToe.new
-# game.turn
+# game.play
